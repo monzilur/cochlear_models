@@ -1,6 +1,9 @@
 function [X_ft, t, params, X_ft_composite] = cochleagram_BEZ(x,fs,dt,type,varargin)
 % c[X_ft, t, params, X_ft_composite] = cochleagram_BEZ(x,fs,dt,type,varargin)
 % This function was edited from UR_EAR_v2_1 by Carney lab
+%
+% Author: Monzilur Rahman
+% Year: 2018
 
 Fs = 100e3;
 RsFs = floor(1000/dt);  %Resample rate for time_freq surface plots

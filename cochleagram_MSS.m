@@ -1,6 +1,8 @@
 function [X_ft,t,params,X_ft_composite] = cochleagram_MSS(x,fs,dt,type,varargin)
 % function [X_ft,t,params] = cochleagram_MSS(x,fs,dt,type,varargin)
-
+%
+% Author: Monzilur Rahman
+% Year: 2018
 if ~exist('type','var')
     type = 'log';
 end

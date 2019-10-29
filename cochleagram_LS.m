@@ -21,6 +21,9 @@ function [X_ft, t, params] = cochleagram_LS(x, fs, dt, type, varargin)
 % e.g.
 % 1/2-octave spacing between 500 and 1600Hz, 10ms time window:
 % [X_ft, t, params] = cochleagram(rand(10000,1), 44100, 10, 'log', 500, 16000, 11)
+%
+% Author: Monzilur Rahman
+% Year: 2018
 
 if strcmp(type, 'log')
   if isempty(varargin)

@@ -21,6 +21,9 @@ function [X_ft, t, params] = cochleagram_spec_power(x, fs, dt, type, varargin)
 % e.g.
 % 1/2-octave spacing between 500 and 1600Hz, 10ms time window:
 % [X_ft, t, params] = cochleagram(rand(10000,1), 44100, 10, 'log', 500, 16000, 11)
+%
+% Author: Monzilur Rahman
+% Year: 2018
 
 params.fs = fs;
 params.threshold = -40;
