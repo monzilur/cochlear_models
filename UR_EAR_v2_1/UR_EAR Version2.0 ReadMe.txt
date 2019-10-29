@@ -1,0 +1,56 @@
+UR EAR - University of Rochester Envisioning Auditory Responses (Version 2.0) 
+
+Getting Started
+---------------
+
+UR_EAR is a MATLAB code package created to study and explore various auditory models and stimuli. This code has the Zilany 2004 Auditory Nerve (AN) model, and the Bruce et al. (2018) AN model. An inferior colliculus (IC) Modulation Filter model (Mao et al 2013), and the Same-Frequency Inhibition and Excitation (SFIE) model (Nelson and Carney 2004) are included, as well as some classic auditory stimuli. Through a graphical user interface (gui), the user can select a model, a stimulus, and select a variety of parameters, and then run the code. The output consists of a series of plots such as the frequency plot, waveform, and model responses.
+
+It is possible to edit the code to add in your own stimuli and/or models. More detailed instructions lie in the code itself and in the user manual.
+
+See below for instructions for installation and running initially. Refer to the user manual, UR EAR User Manual.doc for more detailed information and instructions.
+
+
+Install
+-------
+
+To install the UR_EAR code package, download the zip file from the website, and unzip. Save the folder, and then open it and add it to your path in MATLAB.
+
+
+This code has been tested on Windows operating systems and Mac operating systems.
+
+
+To Run
+------
+
+Open the code package in MATLAB, and add the folder and all subfolders to your path. Open UR_EAR_v2_0.m, and run it. A gui will open, and you will be able to make your selections.
+
+
+Built With
+----------
+
+This code was created in MATLAB 2015b. You will need MATLAB 2015 or later to run this code.
+
+
+Version
+-------
+
+This is UR_EAR Version 2.0 (August 2018).
+
+
+Authors
+-------
+
+Afagh Farhadi, Laurel H. Carney
+
+
+References (PLease cite the approparite model papers in any publications)
+----------------------------
+Bruce, I. C., Erfani, Y., & Zilany, M. S. (2018). A phenomenological model of the synapse between the inner hair cell and auditory nerve: Implications of limited neurotransmitter release sites. Hearing research, 360, 40-54.
+
+Carney, L. H., Li, T., & McDonough, J. M. (2015). Speech Coding in the Brain: Representation of Vowel Formants by Midbrain Neurons Tuned to Sound Fluctuations. ENeuro, 2(4). doi:10.1523/eneuro.0004-15.2015
+
+Mao, J., Vosoughi, A., & Carney, L. H. (2013). Predictions of diotic tone-in-noise detection based on a nonlinear optimal combination of energy, envelope, and fine-structure cues. The Journal of the Acoustical Society of America J. Acoust. Soc. Am., 134(1), 396. doi:10.1121/1.4807815
+
+Nelson, P. C., & Carney, L. H. (2004). A phenomenological model of peripheral and central neural responses to amplitude-modulated tones. The Journal of the Acoustical Society of America J. Acoust. Soc. Am., 116(4), 2173. doi:10.1121/1.1784442
+
+Zilany, M. S., Bruce, I. C., & Carney, L. H. (2014). Updated parameters and expanded simulation options for a model of the auditory periphery. The Journal of the Acoustical Society of America J. Acoust. Soc. Am., 135(1), 283-286. doi:10.1121/1.4837815
