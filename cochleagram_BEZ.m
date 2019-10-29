@@ -1,5 +1,5 @@
 function [X_ft, t, params, X_ft_composite] = cochleagram_BEZ(x,fs,dt,type,varargin)
-% cochleagram_BEZ(x,fs,dt,type,varargin)
+% c[X_ft, t, params, X_ft_composite] = cochleagram_BEZ(x,fs,dt,type,varargin)
 % This function was edited from UR_EAR_v2_1 by Carney lab
 
 Fs = 100e3;
