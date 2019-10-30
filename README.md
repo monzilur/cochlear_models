@@ -1,6 +1,6 @@
 # All codes necessary run cochlea models to produce cochleagram for encoding models.
 # 
-# All functions that produce cochleagram starts with 'cochleagram_'
+# All functions that produce cochleagram start with 'cochleagram_'
 #
 # Each folder contains various dependencies of the models.
 #
