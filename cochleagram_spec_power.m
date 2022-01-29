@@ -26,7 +26,11 @@ function [X_ft, t, params] = cochleagram_spec_power(x, fs, dt, type, varargin)
 % Year: 2018
 
 params.fs = fs;
-params.threshold = -40;
+if ~exist('threshold','var')
+    params.threshold = -70;
+else
+    params.threshold = threshold;
+end
 
 if strcmp(type, 'log')
   if isempty(varargin)
@@ -37,10 +41,16 @@ if strcmp(type, 'log')
 %     params.n_f = 31;
     params.n_f = 34;		%%%%%%%%%%%% PLEASE NOTE: For the SHEnC data, we can only go up to 24kHz as the sound were sampled with 48kHz. By setting the values like this, we make sure that the upper 28 of the 34 frequency channels cover exactly the same frequencies as the lower 28 channels in the Comp data
   else
-    CFs= 2^(1.5)* 440 * 2 .^ ((-31:97)/24); %shft = 1.5
-    params.f_min=CFs(1);
-    params.f_max=CFs(end-1);
-    params.n_f=varargin{1};
+    if max(size(varargin)) == 1
+        CFs= 2^(1.5)* 440 * 2 .^ ((-31:97)/24); %shft = 1.5
+        params.f_min=CFs(1);
+        params.f_max=CFs(end-1);
+        params.n_f=varargin{1};
+    else
+        params.f_min=varargin{2};
+        params.f_max=varargin{3};
+        params.n_f=varargin{1};
+    end
 	%[params.f_min, params.f_max, params.n_f] = varargin{:};
   end
 
@@ -87,5 +97,7 @@ params.freqs = 10.^params.melbank.mc;
 
 X_ft = nan(size(params.melbank.x,1), size(spec,2));
 for tt = 1:size(spec,2)
+    %before_threshold(:,tt) = 10.*log10(params.melbank.x*((abs(spec(params.melbank.na:params.melbank.nb,tt))).^2));
     X_ft(:,tt)=max(10.*log10(params.melbank.x*((abs(spec(params.melbank.na:params.melbank.nb,tt))).^2)),params.threshold);
 end
+%plot(before_threshold(:))

@@ -37,10 +37,16 @@ if strcmp(type, 'log')
 %     params.n_f = 31;
     params.n_f = 34;		%%%%%%%%%%%% PLEASE NOTE: For the SHEnC data, we can only go up to 24kHz as the sound were sampled with 48kHz. By setting the values like this, we make sure that the upper 28 of the 34 frequency channels cover exactly the same frequencies as the lower 28 channels in the Comp data
   else
-    CFs= 2^(1.5)* 440 * 2 .^ ((-31:97)/24); %shft = 1.5
-    params.f_min=CFs(1);
-    params.f_max=CFs(end-1);
-    params.n_f=varargin{1};
+    if max(size(varargin)) == 1
+        CFs= 2^(1.5)* 440 * 2 .^ ((-31:97)/24); %shft = 1.5
+        params.f_min=CFs(1);
+        params.f_max=CFs(end-1);
+        params.n_f=varargin{1};
+    else
+        params.f_min=varargin{2};
+        params.f_max=varargin{3};
+        params.n_f=varargin{1};
+    end
 	%[params.f_min, params.f_max, params.n_f] = varargin{:};
   end
 

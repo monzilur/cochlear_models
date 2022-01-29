@@ -26,7 +26,7 @@ function [X_ft, t, params] = cochleagram_spec_log(x, fs, dt, type, varargin)
 % Year: 2018
 
 params.fs = fs;
-params.threshold = -40;
+params.threshold = -50;
 
 if strcmp(type, 'log')
   if isempty(varargin)
@@ -42,10 +42,16 @@ if strcmp(type, 'log')
     % the 34 frequency channels cover exactly the same frequencies as the 
     % lower 28 channels in the Comp data
   else
-    CFs= 2^(1.5)* 440 * 2 .^ ((-31:97)/24); %shft = 1.5
-    params.f_min=CFs(1);
-    params.f_max=CFs(end-1);
-    params.n_f=varargin{1};
+    if max(size(varargin)) == 1
+        CFs= 2^(1.5)* 440 * 2 .^ ((-31:97)/24); %shft = 1.5
+        params.f_min=CFs(1);
+        params.f_max=CFs(end-1);
+        params.n_f=varargin{1};
+    else
+        params.f_min=varargin{2};
+        params.f_max=varargin{3};
+        params.n_f=varargin{1};
+    end
 	%[params.f_min, params.f_max, params.n_f] = varargin{:};
   end
 

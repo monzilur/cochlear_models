@@ -1,4 +1,4 @@
-function [X_ft, t, params, X_ft_composite] = cochleagram_multilevel(x, fs, dt, type, varargin)
+function [X_ft, t, params, X_ft_composite] = cochleagram_multithreshold(x, fs, dt, type, varargin)
 % function [X_ft, t, params, X_ft_composite] = cochleagram_multilevel(x, fs, dt, type, varargin)
 %
 % NOTE: this function has been copied from benlib and has not been altered!
