@@ -1,26 +1,30 @@
-function [X_ft, t, params, X_ft_composite] = cochleagram_BEZ(x,fs,dt,type,varargin)
-% [X_ft, t, params, X_ft_composite] = cochleagram_BEZ(x,fs,dt,type,varargin)
+function [X_ft, t, params, X_ft_multiFiber] = cochleagram_BEZ(x,fs,dt,type,varargin)
+% [X_ft, t, params, X_ft_multiFiber] = cochleagram_BEZ(x,fs,dt,type,varargin)
 % This function was edited from UR_EAR_v2_1 by Carney lab
 % Author: Monzilur Rahman
 % Year: 2018
 % ===================================================
-% x - cochleagram
-% fs - sample rate
-% dt - bin size in cochleagram in ms
-% type - spacing of frequency channels, only 'log' is available in this
-% version
-% varargin: number of frequency channels, minCF, maxCF, number of auditory
-% never fibers per channel
+% input params:
+% x -- the sound
+% fs -- sample rate in Hz
+% dt -- desired time bin size in ms
+% type -- 'log'
+% varargin -- additional parameters: n_f, f_min, f_max
+%
 % Default values: 
 % - number of frequency channels = 34
-% - minCF = 500
-% - maxCF = 19900
+% - f_min = 500
+% - f_max = 19900
 % - fiber number per channel = 200
+% output:
+% X_ft -- the cochleagram
+% t -- times at which cochleagram is measured
+% params -- parameters used to make the cochleagram
+% X_ft_multiFiber -- multiFiber cochleagram output
 % ===================================================
 % Example:
 % [x,fs] = audioread('soundfile.wav')
 % cochleagram_BEZ(x,fs,5,'log',32,500,22000,100)
-
 
 Fs = 100e3;
 RsFs = floor(1000/dt);  %Resample rate for time_freq surface plots
@@ -100,7 +104,7 @@ for fiberType=1:3
     %X_ft = AN_output.an_sout_population;
 end
 
-X_ft_composite = cat(1,modeldata{:});
+X_ft_multiFiber = cat(1,modeldata{:});
 fiber_percent = [0.15 0.25 0.6]; % ColburnCarney-JARO-2003
 
 X_ft = zeros(size(modeldata{1}));

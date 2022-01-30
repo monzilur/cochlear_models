@@ -1,26 +1,42 @@
-function [X_ft, t, params] = cochleagram_CARFAC(x,fs,dt, type, varargin)
-%[X_ft, t, params] = cochleagram_CARFAC(x,fs,dt, type, varargin)
-% This was modified from CARFAC_binaural in CAR_FAC package
+function [X_ft, t, params] = cochleagram_Lyon(x,fs,dt, type, varargin)
+%[X_ft, t, params] = cochleagram_Lyon(x,fs,dt, type, varargin)
+% This is a wrapper for CARFAC_binaural in CAR_FAC package by Richard F. Lyon
+% to produce cochleagram
+% input params:
+% x -- the sound
+% fs -- sample rate in Hz
+% dt -- desired time bin size in ms
+% type -- 'log'
+% varargin -- additional parameters: n_f, f_min, f_max
 %
-% Copyright 2012 The CARFAC Authors. All Rights Reserved.
-% Author: Richard F. Lyon
+% output:
+% X_ft -- the cochleagram
+% t -- times at which cochleagram is measured
+% params -- parameters used to make the cochleagram
 %
-% This file is part of an implementation of Lyon's cochlear model:
-% "Cascade of Asymmetric Resonators with Fast-Acting Compression"
+% e.g.
+% 1/2-octave spacing between 500 and 1600Hz, 10ms time window:
+% [X_ft, t, params] = cochleagram(rand(10000,1), 44100, 10, 'log', 500, 16000, 11)
 %
-% Licensed under the Apache License, Version 2.0 (the "License");
-% you may not use this file except in compliance with the License.
-% You may obtain a copy of the License at
-%
-%     http://www.apache.org/licenses/LICENSE-2.0
-%
-% Unless required by applicable law or agreed to in writing, software
-% distributed under the License is distributed on an "AS IS" BASIS,
-% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-% See the License for the specific language governing permissions and
-% limitations under the License.
 
-% Test/demo hacking for carfac matlab stuff, two-channel (binaural) case
+if ~exist('type','var')
+    type = 'log';
+end
+
+if size(varargin,2)>0
+    params.n_f = varargin{1};
+else
+    params.n_f = 34;
+end
+
+if size(varargin,2)>2
+    params.f_min = varargin{2};
+    params.f_max = varargin{3};
+else
+    WSR_CFs= 2^(1.5)* 440 * 2 .^ ((-31:97)/24);
+    params.f_min = WSR_CFs(1); % 500 Hz
+    params.f_max = WSR_CFs(end-1); % 19900 Hz
+end
 
 % Apply ramp
 cosine_ramp = ones(size(x));
@@ -33,11 +49,6 @@ agc_plot_fig_num = 0;
 
 test_signal = x;
 n_ears = 1;
-
-CFs= 2^(1.5)* 440 * 2 .^ ((-31:97)/24); %shft = 1.5
-params.f_min=CFs(1);
-params.f_max=CFs(end-1);
-params.n_f=varargin{1};    
 
 ERB_values = [2 8; 4 6; 8 3.5; 16 1.8; 32 0.95; 64 0.48; 128 0.243];
 ERB_per_step = ERB_values(ERB_values(:,1)==params.n_f,2);

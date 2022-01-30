@@ -11,7 +11,7 @@ function [X_ft, t, params] = cochleagram_spec_log(x, fs, dt, type, varargin)
 % fs -- sample rate in Hz
 % dt -- desired time bin size in ms
 % type -- 'log' or 'cat-erb'
-% varargin -- additional parameters, currently f_min, f_max, n_f
+% varargin -- additional parameters: n_f, f_min, f_max
 %
 % output:
 % X_ft -- the cochleagram
@@ -25,51 +25,38 @@ function [X_ft, t, params] = cochleagram_spec_log(x, fs, dt, type, varargin)
 % Author: Monzilur Rahman
 % Year: 2018
 
+if ~exist('type','var')
+    type = 'log';
+end
+
 params.fs = fs;
-params.threshold = -50;
+params.threshold = -70;
 
 if strcmp(type, 'log')
-  if isempty(varargin)
-%     params.f_min = 1000;
-    params.f_min = 500;
-%     params.f_max = 32000;
-    params.f_max = 22627;
-%     params.n_f = 31;
-    params.n_f = 34;
-    %%%%%%%%%%%% PLEASE NOTE: For the SHEnC data, 
-    % we can only go up to 24kHz as the sound were sampled with 48kHz. By 
-    % setting the values like this, we make sure that the upper 28 of 
-    % the 34 frequency channels cover exactly the same frequencies as the 
-    % lower 28 channels in the Comp data
-  else
-    if max(size(varargin)) == 1
-        CFs= 2^(1.5)* 440 * 2 .^ ((-31:97)/24); %shft = 1.5
-        params.f_min=CFs(1);
-        params.f_max=CFs(end-1);
-        params.n_f=varargin{1};
-    else
-        params.f_min=varargin{2};
-        params.f_max=varargin{3};
-        params.n_f=varargin{1};
-    end
-	%[params.f_min, params.f_max, params.n_f] = varargin{:};
-  end
-
+    
   params.nfft_mult = 4;
   params.meltype = 'lusc';
 
 elseif strcmp(type, 'cat-erb')
-  if isempty(varargin)
-    params.f_min = 1000;
-    params.f_max = 32000;
-    params.n_f = 23;
-  else
-	[params.f_min, params.f_max, params.n_f] = varargin{:};
-  end
 
   params.nfft_mult = 1;
   params.meltype = 'kusc';
 
+end
+
+if size(varargin,2)>0
+    params.n_f = varargin{1};
+else
+    params.n_f = 34;
+end
+
+if size(varargin,2)>2
+    params.f_min = varargin{2};
+    params.f_max = varargin{3};
+else
+    WSR_CFs= 2^(1.5)* 440 * 2 .^ ((-31:97)/24);
+    params.f_min = WSR_CFs(1); % 500 Hz
+    params.f_max = WSR_CFs(end-1); % 19900 Hz
 end
 
 % get actual dt (which is an integer number of samples)
