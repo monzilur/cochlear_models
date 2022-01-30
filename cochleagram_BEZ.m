@@ -1,9 +1,26 @@
 function [X_ft, t, params, X_ft_composite] = cochleagram_BEZ(x,fs,dt,type,varargin)
-% c[X_ft, t, params, X_ft_composite] = cochleagram_BEZ(x,fs,dt,type,varargin)
+% [X_ft, t, params, X_ft_composite] = cochleagram_BEZ(x,fs,dt,type,varargin)
 % This function was edited from UR_EAR_v2_1 by Carney lab
-%
 % Author: Monzilur Rahman
 % Year: 2018
+% ===================================================
+% x - cochleagram
+% fs - sample rate
+% dt - bin size in cochleagram in ms
+% type - spacing of frequency channels, only 'log' is available in this
+% version
+% varargin: number of frequency channels, minCF, maxCF, number of auditory
+% never fibers per channel
+% Default values: 
+% - number of frequency channels = 34
+% - minCF = 500
+% - maxCF = 19900
+% - fiber number per channel = 200
+% ===================================================
+% Example:
+% [x,fs] = audioread('soundfile.wav')
+% cochleagram_BEZ(x,fs,5,'log',32,500,22000,100)
+
 
 Fs = 100e3;
 RsFs = floor(1000/dt);  %Resample rate for time_freq surface plots
@@ -16,14 +33,17 @@ end
 if size(varargin,2)>0
     param.n_f = varargin{1};
 else
-    minCF  = 500;
-    maxCF = 19.9;
     param.n_f = 34;
 end
 
-WSR_CFs= 2^(1.5)* 440 * 2 .^ ((-31:97)/24);
-minCF = WSR_CFs(1);
-maxCF = WSR_CFs(end-1);
+if size(varargin,2)>2
+    minCF = varargin{2};
+    maxCF = varargin{3};
+else
+    WSR_CFs= 2^(1.5)* 440 * 2 .^ ((-31:97)/24);
+    minCF = WSR_CFs(1); % 500 Hz
+    maxCF = WSR_CFs(end-1); % 19900 Hz
+end
 
 if type == 'log'
     CFs = logspace(log10(minCF),log10(maxCF),param.n_f); % set range and resolution of CFs here
@@ -56,7 +76,12 @@ if add_LTASS_noise == 1                    % Make wideband LTASS noise (100 Hz -
 end
 
 % Model Selection and Parameters
-fiber_num = 10; % Number of fibers in each CF
+if max(size(varargin))>3
+    fiber_num = varargin{4};
+else
+    fiber_num = 200; % Number of fibers in each CF
+end
+
 species = 1;% 1=cat; 2=human AN model parameters (with Shera tuning sharpness)
 
 % Check for NaN in stimulus - this prevents NaN from being passed into .mex files and causing MATLAB to close
